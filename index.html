@@ -7,81 +7,89 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gradient-to-b from-[#1a1f35] to-[#0F1729] text-white min-h-screen">
-    <!-- Мобильная навигация -->
+<body class="bg-[#0F1729] text-white">
     <nav class="fixed w-full top-0 z-50 bg-[#2A2F4F]/90 backdrop-blur-sm">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-16">
-                <div class="text-lg md:text-xl font-bold">TON Blockchain</div>
-                <button class="md:hidden p-2" id="mobile-menu-button">
+                <div class="text-xl font-bold">TON Blockchain</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="hover:text-blue-400 transition">About</a>
+                    <a href="#features" class="hover:text-blue-400 transition">Features</a>
+                    <a href="#nft" class="hover:text-blue-400 transition">NFT Gallery</a>
+                    <a href="#ecosystem" class="hover:text-blue-400 transition">Ecosystem</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
                     </svg>
                 </button>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
-                    <a href="#features" class="hover:text-blue-400 transition-colors">Features</a>
-                    <a href="#nft" class="hover:text-blue-400 transition-colors">NFT Gallery</a>
-                    <a href="#ecosystem" class="hover:text-blue-400 transition-colors">Ecosystem</a>
-                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Мобильное меню -->
-    <div id="mobile-menu" class="fixed w-full bg-[#2A2F4F] transform -translate-y-full transition-transform duration-300 ease-in-out z-40">
-        <div class="py-2">
-            <a href="#about" class="block px-4 py-2 hover:bg-[#3A3F5F]">About</a>
-            <a href="#features" class="block px-4 py-2 hover:bg-[#3A3F5F]">Features</a>
-            <a href="#nft" class="block px-4 py-2 hover:bg-[#3A3F5F]">NFT Gallery</a>
-            <a href="#ecosystem" class="block px-4 py-2 hover:bg-[#3A3F5F]">Ecosystem</a>
+    <header class="pt-24 pb-16 px-4 bg-gradient-to-b from-[#2A2F4F] to-[#0F1729]">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">The Open Network</h1>
+            <p class="text-xl text-gray-300">A fast, secure, and scalable blockchain platform designed for mass adoption</p>
         </div>
-    </div>
+    </header>
 
-    <!-- Основной контент -->
-    <main class="pt-16 container mx-auto px-4">
-        <header class="py-8 md:py-16 text-center">
-            <h1 class="text-3xl md:text-6xl font-bold mb-4">The Open Network</h1>
-            <p class="text-lg md:text-xl text-gray-300">A fast, secure, and scalable blockchain platform designed for mass adoption</p>
-        </header>
-
-        <!-- NFT Галерея -->
-        <section id="nft" class="py-8 md:py-16">
-            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Featured NFT Collections</h2>
-            <div class="carousel-container overflow-hidden">
-                <div class="carousel-wrapper flex transition-transform duration-300 gap-4">
-                    <!-- NFT карточки -->
-                    <div class="nft-card min-w-[280px] md:min-w-[320px] bg-[#2A2F4F] rounded-xl overflow-hidden flex-shrink-0">
-                        <img src="path/to/nft1.jpg" alt="TON Auto #1" class="w-full h-48 md:h-56 object-cover">
+    <section id="nft-carousel" class="py-16 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Featured NFT Collections</h2>
+            <div class="carousel relative">
+                <div class="carousel-container flex transition-transform duration-500 ease-in-out">
+                    <!-- NFT Cards -->
+                    <div class="carousel-item min-w-[300px] md:min-w-[350px] m-4 bg-[#2A2F4F] rounded-xl overflow-hidden">
+                        <img src="https://ton-auto.xyz/assets/1.png" alt="TON Auto #1" class="w-full h-64 object-cover">
                         <div class="p-4">
                             <h3 class="text-xl font-bold">TON Auto #1</h3>
                             <p class="text-gray-300">Cyberpunk character with car</p>
                         </div>
                     </div>
-                    <!-- Повторить для других NFT -->
+                    <div class="carousel-item min-w-[300px] md:min-w-[350px] m-4 bg-[#2A2F4F] rounded-xl overflow-hidden">
+                        <img src="https://ton-auto.xyz/assets/2.png" alt="TON Auto #2" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold">TON Auto #2</h3>
+                            <p class="text-gray-300">Night city scene</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item min-w-[300px] md:min-w-[350px] m-4 bg-[#2A2F4F] rounded-xl overflow-hidden">
+                        <img src="https://ton-auto.xyz/assets/3.png" alt="TON Auto #3" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-bold">TON Auto #3</h3>
+                            <p class="text-gray-300">Character with classic car</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="carousel-controls flex justify-between mt-4">
-                    <button class="prev-btn bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Previous</button>
-                    <button class="next-btn bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Next</button>
-                </div>
+                <button class="prev absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 p-4 rounded-r">❮</button>
+                <button class="next absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 p-4 rounded-l">❯</button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Ключевые особенности -->
-        <section id="features" class="py-8 md:py-16">
-            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Key Features</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="feature-card bg-[#2A2F4F] p-6 rounded-xl transform hover:scale-105 transition-transform">
+    <main class="container mx-auto px-4">
+        <section id="features" class="py-16">
+            <h2 class="text-3xl font-bold mb-12 text-center">Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-[#2A2F4F] p-6 rounded-xl">
                     <h3 class="text-xl font-bold mb-4">Dynamic Sharding</h3>
                     <p class="text-gray-300">Automatic blockchain partitioning for unlimited scalability</p>
                 </div>
-                <!-- Повторить для других особенностей -->
+                <div class="feature-card bg-[#2A2F4F] p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-4">Smart Contracts</h3>
+                    <p class="text-gray-300">Flexible and isolated contracts for secure decentralized applications</p>
+                </div>
+                <div class="feature-card bg-[#2A2F4F] p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-4">TON Virtual Machine</h3>
+                    <p class="text-gray-300">Advanced VM for efficient smart contract execution</p>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-[#2A2F4F] mt-16 py-6">
-        <div class="container mx-auto px-4 text-center text-sm md:text-base">
+    <footer class="bg-[#2A2F4F] mt-16 py-8">
+        <div class="container mx-auto px-4 text-center">
             <p>© 2024 TON Blockchain. All rights reserved.</p>
         </div>
     </footer>
