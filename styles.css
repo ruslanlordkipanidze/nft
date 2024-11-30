@@ -12,10 +12,28 @@
 /* Mobile-first медиа-запросы */
 @layer components {
     .nft-card {
-        @apply transform transition-all duration-300 hover:shadow-xl;
+        @apply relative overflow-hidden rounded-xl flex-shrink-0 w-full md:w-[320px];
+        aspect-ratio: 1;
     }
-
-    .feature-card {
+    
+    .nft-card img {
+        @apply absolute inset-0 w-full h-full object-cover;
+    }
+    
+    .nft-card .content {
+        @apply absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#2A2F4F] to-transparent;
+    }
+    
+    .nft-card h3 {
+        @apply text-xl font-bold text-white mb-1;
+    }
+    
+    .nft-card p {
+        @apply text-gray-300 text-sm;
+    }
+    
+    
+        .feature-card {
         @apply transform transition-all duration-300 hover:shadow-xl;
     }
 
