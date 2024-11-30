@@ -1,68 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Carousel functionality
-    const container = document.querySelector('.carousel-container');
-    const items = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.prev');
-    const nextBtn = document.querySelector('.next');
-    let currentIndex = 0;
+    // Мобильное меню
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isMenuOpen = false;
 
-    function updateCarousel() {
-        const itemWidth = items[0].offsetWidth + 32; // Including margin
-        container.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        mobileMenu.style.transform = isMenuOpen ? 'translateY(0)' : 'translateY(-100%)';
     }
 
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < items.length - 1) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
+    mobileMenuButton.addEventListener('click', toggleMenu);
 
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
-
-    // Mobile menu functionality
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const nav = document.querySelector('nav');
-
-    mobileMenuButton.addEventListener('click', () => {
-        const mobileMenu = document.querySelector('.mobile-menu');
-        if (mobileMenu) {
-            mobileMenu.classList.toggle('hidden');
-        } else {
-            const menu = document.createElement('div');
-            menu.className = 'mobile-menu animate-fadeIn';
-            menu.innerHTML = `
-                <a href="#about" class="block px-4 py-2">About</a>
-                <a href="#features" class="block px-4 py-2">Features</a>
-                <a href="#nft" class="block px-4 py-2">NFT Gallery</a>
-                <a href="#ecosystem" class="block px-4 py-2">Ecosystem</a>
-            `;
-            nav.appendChild(menu);
-        }
-    });
-
-    // Close mobile menu when clicking outside
+    // Закрытие меню при клике вне его
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav')) {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            if (mobileMenu) {
-                mobileMenu.classList.add('hidden');
-            }
+        if (isMenuOpen && !e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-button')) {
+            toggleMenu();
         }
     });
 
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+    // Карусель
+    const carousel = document.querySelector('.carousel-wrapper');
+    const cards = document.querySelectorAll('.nft-card');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentIndex = 0;
+
+    // Прокрутка карусели
+    function updateCarousel(direction) {
+        const cardWidth = cards[0].offsetWidth + 16; // Ширина карточки + gap
+        currentIndex = direction === 'next' 
+            ? Math.min(currentIndex + 1, cards.length - 1)
+            : Math.max(currentIndex - 1, 0);
+        
+        carousel.scrollTo({
+            left: currentIndex * cardWidth,
+            behavior: 'smooth'
         });
+    }
+
+    prevBtn.addEventListener('click', () => updateCarousel('prev'));
+    nextBtn.addEventListener('click', () => updateCarousel('next'));
+
+    // Адаптивность при изменении размера окна
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            updateCarousel('current');
+        }, 250);
     });
 });

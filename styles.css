@@ -2,38 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
-.carousel {
-    @apply max-w-7xl mx-auto overflow-hidden;
+/* Базовые стили */
+:root {
+    --primary: #0088CC;
+    --secondary: #2A2F4F;
+    --background: #0F1729;
 }
 
-.carousel-container {
-    @apply flex transition-transform duration-500;
+/* Mobile-first медиа-запросы */
+@layer components {
+    .nft-card {
+        @apply transform transition-all duration-300 hover:shadow-xl;
+    }
+
+    .feature-card {
+        @apply transform transition-all duration-300 hover:shadow-xl;
+    }
+
+    /* Мобильная навигация */
+    .mobile-menu {
+        @apply fixed w-full bg-secondary transform transition-transform duration-300;
+    }
+
+    /* Карусель */
+    .carousel-container {
+        @apply relative max-w-full mx-auto;
+    }
+
+    .carousel-wrapper {
+        @apply flex snap-x snap-mandatory overflow-x-auto gap-4 pb-4;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .carousel-wrapper::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-.feature-card {
-    @apply transform transition-transform hover:scale-105 hover:shadow-xl;
-}
+/* Медиа-запросы для больших экранов */
+@media (min-width: 768px) {
+    .carousel-wrapper {
+        @apply flex-wrap justify-center;
+    }
 
-/* Mobile menu */
-.mobile-menu {
-    @apply fixed top-16 left-0 w-full bg-[#2A2F4F] shadow-lg transform transition-transform duration-300 ease-in-out;
-}
-
-.mobile-menu.hidden {
-    @apply -translate-y-full;
-}
-
-.mobile-menu a {
-    @apply block px-4 py-2 hover:bg-[#3A3F5F];
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.animate-fadeIn {
-    animation: fadeIn 0.5s ease-in-out;
+    .nft-card {
+        @apply flex-grow-0;
+    }
 }
