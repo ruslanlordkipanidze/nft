@@ -1,68 +1,153 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Carousel functionality
-    const container = document.querySelector('.carousel-container');
-    const items = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.prev');
-    const nextBtn = document.querySelector('.next');
-    let currentIndex = 0;
+'use strict';
 
-    function updateCarousel() {
-        const itemWidth = items[0].offsetWidth + 32; // Including margin
-        container.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+
+
+/**
+ * NAVBAR TOGGLE FOR MOBILE
+ */
+
+const navbar = document.querySelector("[data-navbar]");
+const navToggler = document.querySelector("[data-nav-toggler]");
+
+navToggler.addEventListener("click", function () {
+  navbar.classList.toggle("active");
+  this.classList.toggle("active");
+});
+
+
+
+/**
+ * HEADER & BACK TOP BTN
+ * header and back top btn visible when window scroll down to 200px
+ */
+
+const header = document.querySelector("[data-header]");
+const backTopBtn = document.querySelector("[data-back-top-btn]");
+
+const activeElementOnScroll = function () {
+  if (window.scrollY > 200) {
+    header.classList.add("active");
+    backTopBtn.classList.add("active");
+  } else {
+    header.classList.remove("active");
+    backTopBtn.classList.remove("active");
+  }
+}
+
+window.addEventListener("scroll", activeElementOnScroll);
+
+
+
+/**
+ * SLIDER
+ */
+
+const sliders = document.querySelectorAll("[data-slider]");
+
+const sliderInit = function (currentSlider) {
+
+  const sliderContainer = currentSlider.querySelector("[data-slider-container]");
+  const sliderPrevBtn = currentSlider.querySelector("[data-slider-prev]");
+  const sliderNextBtn = currentSlider.querySelector("[data-slider-next]");
+
+  const totalSliderVisibleItems = Number(getComputedStyle(currentSlider).getPropertyValue("--slider-item"));
+  const totalSliderItems = sliderContainer.childElementCount - totalSliderVisibleItems;
+
+  let currentSlidePos = 0;
+
+  const moveSliderItem = function () {
+    sliderContainer.style.transform = `translateX(-${sliderContainer.children[currentSlidePos].offsetLeft}px)`;
+  }
+
+  /**
+   * NEXT SLIDE
+   */
+  const slideNext = function () {
+    const slideEnd = currentSlidePos >= totalSliderItems;
+
+    if (slideEnd) {
+      currentSlidePos = 0;
+    } else {
+      currentSlidePos++;
     }
 
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < items.length - 1) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
+    moveSliderItem();
+  }
 
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
+  sliderNextBtn.addEventListener("click", slideNext);
 
-    // Mobile menu functionality
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const nav = document.querySelector('nav');
+  /**
+   * PREVIOUS SLIDE
+   */
+  const slidePrev = function () {
+    if (currentSlidePos <= 0) {
+      currentSlidePos = totalSliderItems;
+    } else {
+      currentSlidePos--;
+    }
 
-    mobileMenuButton.addEventListener('click', () => {
-        const mobileMenu = document.querySelector('.mobile-menu');
-        if (mobileMenu) {
-            mobileMenu.classList.toggle('hidden');
-        } else {
-            const menu = document.createElement('div');
-            menu.className = 'mobile-menu animate-fadeIn';
-            menu.innerHTML = `
-                <a href="#about" class="block px-4 py-2">About</a>
-                <a href="#features" class="block px-4 py-2">Features</a>
-                <a href="#nft" class="block px-4 py-2">NFT Gallery</a>
-                <a href="#ecosystem" class="block px-4 py-2">Ecosystem</a>
-            `;
-            nav.appendChild(menu);
-        }
-    });
+    moveSliderItem();
+  }
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav')) {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            if (mobileMenu) {
-                mobileMenu.classList.add('hidden');
-            }
-        }
-    });
+  sliderPrevBtn.addEventListener("click", slidePrev);
 
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-});
+  const dontHaveExtraItem = totalSliderItems <= 0;
+  if (dontHaveExtraItem) {
+    sliderNextBtn.setAttribute("disabled", "");
+    sliderPrevBtn.setAttribute("disabled", "");
+  }
+
+  /**
+   * AUTO SLIDE
+   */
+
+  let autoSlideInterval;
+
+  const startAutoSlide = () => autoSlideInterval = setInterval(slideNext, 3000);
+  startAutoSlide();
+  const stopAutoSlide = () => clearInterval(autoSlideInterval);
+
+  currentSlider.addEventListener("mouseover", stopAutoSlide);
+
+  currentSlider.addEventListener("mouseout", startAutoSlide);
+
+  /**
+   * RESPONSIVE
+   */
+
+  window.addEventListener("resize", moveSliderItem);
+
+}
+
+for (let i = 0, len = sliders.length; i < len; i++) { sliderInit(sliders[i]); }
+
+
+
+/**
+ * ACCORDION
+ */
+
+const accordions = document.querySelectorAll("[data-accordion]");
+
+let lastActiveAccordion;
+
+const accordionInit = function (currentAccordion) {
+
+  const accordionBtn = currentAccordion.querySelector("[data-accordion-btn]");
+
+  accordionBtn.addEventListener("click", function () {
+
+    if (currentAccordion.classList.contains("active")) {
+      currentAccordion.classList.toggle("active");
+    } else {
+      if (lastActiveAccordion) lastActiveAccordion.classList.remove("active");
+      currentAccordion.classList.add("active");
+    }
+
+    lastActiveAccordion = currentAccordion;
+
+  });
+
+}
+
+for (let i = 0, len = accordions.length; i < len; i++) { accordionInit(accordions[i]); }
